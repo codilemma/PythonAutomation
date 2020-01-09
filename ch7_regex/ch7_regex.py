@@ -1,3 +1,20 @@
+# Shorthand Codes for common Regex Character Classes
+#============================================================================================#
+# Shorthand | Represents                                                                     #
+#============================================================================================#
+# '\d'      | Any numeric digit from 0 to 9.                                                 #
+# -------------------------------------------------------------------------------------------#
+# '\D'      | Any character that is NOT a numeric digit from 0 to 9.                         #
+# -------------------------------------------------------------------------------------------#
+# '\w'      | Any letter, numeric digit, or the underscore character                         #
+# -------------------------------------------------------------------------------------------#
+# '\W'      | Any character that is NOT a letter, numeric digit, or the underscore character #
+# -------------------------------------------------------------------------------------------#
+# '\s'      | Any space, tab, or newline character                                           #
+# -------------------------------------------------------------------------------------------#
+# '\S'      | Any character that is NOT a space, tab, or newline character                   #
+# -------------------------------------------------------------------------------------------#
+
 import re
 
 # Finding patterns of text without regular expressions-----------------------------
@@ -120,3 +137,28 @@ mo2 = nonGreedyHaRegex.search('HaHaHaHaHa') # returns HaHaHa
 print(mo2.group())
 
 #  the findall() method --------------------------------------------
+# findall() without groups 
+phoneNumRegex = re.compile(r'\d{3}-\d{3}-\d{4}')
+# returns a list of all phone numbers found
+nums = phoneNumRegex.findall('Cell: 415-555-9999, Work: 212-555-0000') # No groups
+print(nums)
+
+# findall() with groups
+phoneNumRegex = re.compile(r'(\d{3})-(\d{3}-\d{4})')
+# returns a list of tuples that contain (areaCode, mainNumber) of all phone numbers found
+nums = phoneNumRegex.findall('Cell: 415-555-9999, Work: 212-555-0000') # No groups
+print(nums)
+
+#  Making your own Character Classes --------------------------------------------
+# \d is shorthand for (0|1|2|3|4|5|6|7|8|9)
+vowelRegex = re.compile(r'[aeiouAEIOU]') # will find uppper and lowercase vowels
+vo = vowelRegex.findall('RoboCop eats baby food. BABY FOOD.')
+print(vo)
+
+# Negative character class
+# will find all characters that are NOT upper and lowercase vowels
+consonantRegex = re.compile(r'[^aeiouAEIOU]')
+co = consonantRegex.findall('RoboCop eats babyfood. BABY FOOD.')
+print(co)
+
+#  Making your own Character Classes --------------------------------------------
