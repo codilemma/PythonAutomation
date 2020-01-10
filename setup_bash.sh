@@ -14,4 +14,12 @@
 # FOR REFERENCE -------------------------
 
 # Activate the virtual environment
-source .venv/bin/Activate
+#source .venv/bin/Activate
+
+
+# Create
+# 'virtualenv AutoEnv'
+
+# activate
+# 'cd AutoEnv'
+# 'source bin/activate'

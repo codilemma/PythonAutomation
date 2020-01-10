@@ -14,6 +14,32 @@
 # -------------------------------------------------------------------------------------------#
 # '\S'      | Any character that is NOT a space, tab, or newline character                   #
 # -------------------------------------------------------------------------------------------#
+# '?'       | Matches zero or one of the preceding group                                     #
+# -------------------------------------------------------------------------------------------#
+# '*'       | Matches zero or more of the preceding group                                    #
+# -------------------------------------------------------------------------------------------#
+# '+'       | Matches one or more of the preceding group                                     #
+# -------------------------------------------------------------------------------------------#
+# '{n}'     | Matches exactly n of the preceding group                                       #
+# -------------------------------------------------------------------------------------------#
+# '{n,}'    | Matches n or more of the preceding group                                       #
+# -------------------------------------------------------------------------------------------#
+# '{,m}'    | Matches 0 to m of tghe preceding group                                         #
+# -------------------------------------------------------------------------------------------#
+# '{n,m}'   | Matches at least n and at most m of the preceding group                        #
+# -------------------------------------------------------------------------------------------#
+# '{n,m}?' or '*?' or '+?' | preforms non-greedy match of the preceeding group               #
+# -------------------------------------------------------------------------------------------#
+# '^spam'   | means the string must begin with spam                                          #
+# -------------------------------------------------------------------------------------------#
+# 'spam$'   | means the string must end with spam                                            #
+# -------------------------------------------------------------------------------------------#
+# '.'       | matches any character, except newline characters                               #
+# -------------------------------------------------------------------------------------------#
+# '[abc]'   | matches any character between the brackets (such as a,b, or c)                 #
+# -------------------------------------------------------------------------------------------#
+# '[^abc]'  | matches any character that isn't between the brackets                          #
+# -------------------------------------------------------------------------------------------#
 
 import re
 
@@ -161,4 +187,51 @@ consonantRegex = re.compile(r'[^aeiouAEIOU]')
 co = consonantRegex.findall('RoboCop eats babyfood. BABY FOOD.')
 print(co)
 
-#  Making your own Character Classes --------------------------------------------
+#  The Caret and Dollar Sign Characters --------------------------------------------
+# use '^' to indicate that match must occur at beginning
+# use '$' to indicate that match must occur at end
+beginsWithHello = re.compile(r'^Hello')
+bh = beginsWithHello.search('Hello, World!')
+print(bh)
+
+bh2 = beginsWithHello.search('He said Hello.')
+print(bh2 == None)
+
+# "r'^\d+$'" searches for strings that both begin and end with one or more numerics
+wholeStringIsNum = re.compile(r'^\d+$')
+ws = wholeStringIsNum.search('123456')
+print(ws)
+
+ws2 = wholeStringIsNum.search('12456wsd4546')
+print(ws2 == None)
+
+#  The Wildcard Character "." --------------------------------------------
+# Matches any character except for a newline
+atRegex = re.compile(r'.at')
+print(atRegex.findall('The cat in the hat sat on the flat mat.'))
+
+#  Matching Everything with Dot-Star  --------------------------------------------
+nameRegex = re.compile(r'First Name: (.*) Last Name: (.*)')
+mo = nameRegex.search('First Name: Al  Last Name: Swigart')
+print(mo.group(1))
+print(mo.group(2))
+
+# Non-greedy mode
+nongreedyRegex = re.compile(r'<.*?>')
+mo = nongreedyRegex.search('<To serve man> for dinner.>')
+print(mo.group())
+
+greedyRegex = re.compile(r'<.*>')
+mo = greedyRegex.search('<To serve man> for dinner.>')
+print(mo.group())
+
+#  Matching Newlines with the Dot Character  --------------------------------------------
+# will match everything except the newline.  
+# re.DOTALL: will match all characters, including the newline character
+noNewLineRegex = re.compile('.*')
+print(noNewLineRegex.search('Serve the public trust. \nProtect the innocent.').group())
+
+newLineRegex = re.compile('.*', re.DOTALL)
+print(newLineRegex.search('Serve the public trust. \nProtect the innocent').group())
+
+
