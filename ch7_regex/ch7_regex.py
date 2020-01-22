@@ -235,3 +235,39 @@ newLineRegex = re.compile('.*', re.DOTALL)
 print(newLineRegex.search('Serve the public trust. \nProtect the innocent').group())
 
 
+#  Case-Insensitive Matching  --------------------------------------------
+# to make regex case-insensitive, pass re.IGNORECASE or re.I as a second argument
+robocop = re.compile(r'robocop',re.I)
+print(robocop.search('RoboCop is part man, part machin, all cop.').group())
+print(robocop.search('ROBOCOP protects the innocent.').group())
+
+#  Substituting strings with the sub() method  --------------------------------------------
+# substitute new text in place of patterns
+namesRegex = re.compile(r'Agent \w+')
+# sub(replace_with_this, string_to_search)
+print(namesRegex.sub('Censored', 'Agent Alice gave the secret documents to Agent Bob.'))
+
+#Censor the names of the agents by abreviating their name. \1 replaces the (\w) group
+agentNamesRegex = re.compile(r'Agent (\w)\w*')
+print(agentNamesRegex.sub(r'\1****','Agent Alice told Agent Carol that Agent Eve knew Agent Bob was a double agent.'))
+
+# Managing Compex Regexes -------------------------------------------
+# instead of this
+phoneRegex = re.compile(r'((\d{3}|\(\d{3}\))?(\s|-|\.)?\d{3}(\s|-|\.)\d{4}(\s*(ext|x|ext.)\s*\d{2,5})?)')
+# You can do this!
+phoneRegex = re.compile(r'''(
+    (\d{3}|\(\d{3}\))?            # area code
+    (\s|-|\.)?                    # separator
+    \d{3}                         # first 3 digits
+    (\s|-|\.)                     # separator
+    \d{4}                         # last 4 digits
+    (\s*(ext|x|ext.)\s*\d{2,5})?  # extension
+)''', re.VERBOSE)
+nums = phoneRegex.findall('Cell: 415-555-9999, Work: 212-555-0000') # No groups
+print(nums)
+print(nums[0][0])
+
+# Combining re.IGNORECASE, re.DOTALL, and re.VERBOSE-------------------------------------
+someRegexValue = re.compile('foo',re.IGNORECASE|re.DOTALL|re.VERBOSE)
+
+
